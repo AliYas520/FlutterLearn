@@ -27,25 +27,41 @@ class DynamicListState extends State<DynamicList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dynamic List'),
-      ),
+      appBar: AppBar(title: const Text('Dynamic List')),
       body: Column(
         children: <Widget>[
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(items[index]),
-                );
+                return ListTile(title: Text(items[index]));
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: [],), 
-          )
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: textEditingController,
+                    decoration: const InputDecoration(
+                      labelText: 'Add New Item',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      items.add(textEditingController.text);
+                      textEditingController.clear();
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
